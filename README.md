@@ -36,7 +36,8 @@ Slippery surface with a 33.3% chance of moving as intended and a 66.6% chance of
 The agent receives a reward of 1 for reaching the goal state, and a reward of 0 otherwise.
 
 ### Graphical Representation
-![monte-carlo-control](1.png)
+![image](https://github.com/user-attachments/assets/04e279dc-c542-4bbd-b95a-eaf5152e8bc4)
+
 
 ## MONTE CARLO CONTROL ALGORITHM
 1. Initialize the state value function V(s) and the policy π(s) arbitrarily.
