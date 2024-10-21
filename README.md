@@ -1,5 +1,8 @@
 # MONTE CARLO CONTROL ALGORITHM
 
+### Name: Pooja A
+### Register Number: 212222240072
+
 ## AIM
 To develop a Python program to find the optimal policy for the given RL environment using the Monte Carlo algorithm.
 
@@ -104,12 +107,31 @@ def mc_control (env, gamma = 1.0,
   return Q, V, pi
 ```
 
+### Print the optimal Value Funtion
+```
+optimal_Q, optimal_V, optimal_pi = mc_control (env,n_episodes = 3000)
+print('Name: Meetha Prabhu     Register Number: 212222240065        ')
+print_state_value_function(optimal_Q, P, n_cols=4, prec=2, title='Action-value function:')
+print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='State-value function:')
+print_policy(optimal_pi,P)
+```
+
+### Probability of Success:
+```
+# Find the probability of success and the mean return of you your policy
+print('Name: Meetha Prabhu     Register Number: 212222240065        ')
+print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.format(
+    probability_success(env, optimal_pi, goal_state=goal_state)*100,
+    mean_return(env, optimal_pi)))
+```
+
+
 ## OUTPUT:
 ### Name: Pooja A
 ### Register Number: 212222240072
+![image](https://github.com/user-attachments/assets/76d0b5c0-1713-4112-97d4-b4785f54afc5)
 
-.
+![image](https://github.com/user-attachments/assets/de3475e2-d3bb-490a-966e-cf39940fa482)
 
 ## RESULT:
-
 We have successfully developed a Python program to find the optimal policy for the given RL environment using the Monte Carlo algorithm.
