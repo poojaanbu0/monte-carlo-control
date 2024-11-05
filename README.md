@@ -72,57 +72,83 @@ The agent receives a reward of 1 for reaching the goal state, and a reward of 0 
 
 ## MONTE CARLO CONTROL FUNCTION
 ```
-import numpy as np
-from tqdm import tqdm
+def mc_control(env,
+               gamma=1.0,
+               init_alpha=0.5,
+               min_alpha=0.01,
+               alpha_decay_ratio=0.5,
+               init_epsilon=1.0,
+               min_epsilon=0.1,
+               epsilon_decay_ratio=0.9,
+               n_episodes=3000,
+               max_steps=200,
+               first_visit=True):
 
-def mc_control (env, gamma = 1.0,
-                init_alpha = 0.5,min_alpha = 0.01, alpha_decay_ratio = 0.5,
-                init_epsilon = 1.0, min_epsilon = 0.1, epsilon_decay_ratio = 0.9,
-                n_episodes = 3000, max_steps = 200, first_visit = True):
-  nS, nA = env.observation_space.n, env.action_space.n
+    nS, nA = env.observation_space.n, env.action_space.n
 
-  discounts=np.logspace(0,max_steps,num=max_steps, base=gamma, endpoint=False)
-  alphas = decay_schedule(init_alpha, min_alpha, alpha_decay_ratio,n_episodes)
-  epsilons=decay_schedule(init_epsilon, min_epsilon, epsilon_decay_ratio,n_episodes)
-  pi_track=[]
-  Q = np.zeros((nS, nA),dtype=np.float64)
-  Q_track = np.zeros((n_episodes,nS,nA),dtype=np.float64 )
-  select_action = lambda state, Q, epsilon : np.argmax(Q[state]) if np.random.random()> epsilon else np.random.randint(len(Q[state]))
+    discounts = np.logspace(
+        0, max_steps,
+        num=max_steps, base=gamma,
+        endpoint=False)
 
-  for e in tqdm(range(n_episodes),leave=False):
-    trajectory = generate_trajectory(select_action,Q, epsilons[e],env, max_steps)
-    visited = np.zeros((nS, nA), dtype=bool)
-    for t, (state, action, reward,_,_) in enumerate(trajectory):
-      if visited[state][action] and first_visit:
-        continue
-      visited[state][action]=True
-      n_steps=len(trajectory[t:])
-      G=np.sum(discounts[:n_steps] * trajectory[t:,2])
-      Q[state][action] = Q[state][action] + alphas[e] * (G-Q[state][action])
-    Q_track[e]=Q
-    pi_track.append(np.argmax(Q,axis=1))
-  V=np.max(Q, axis=1)
-  pi=lambda s:{s:a for s, a in enumerate(np.argmax(Q, axis=1))} [s]
+    alphas = decay_schedule(
+        init_alpha, min_alpha,
+        alpha_decay_ratio,
+        n_episodes)
 
-  return Q, V, pi
+    epsilons = decay_schedule(
+        init_epsilon, min_epsilon,
+        epsilon_decay_ratio,
+        n_episodes)
+
+    pi_track = []
+    Q = np.zeros((nS, nA), dtype=np.float64)
+    Q_track = np.zeros((n_episodes, nS, nA), dtype=np.float64)
+
+    select_action = lambda state, Q, epsilon:np.argmax(Q[state]) if np.random.random() > epsilon else np.random.randint(len(Q[state]))
+
+    for e in tqdm(range(n_episodes), leave=False):
+        trajectory = generate_trajectory(select_action, Q, epsilons[e], env, max_steps)
+        visited = np.zeros((nS, nA), dtype=bool)
+
+        for t, (state, action, reward, _, _) in enumerate(trajectory):
+            if visited[state][action] and first_visit:
+                continue
+            visited[state][action] = True
+
+            n_steps = len(trajectory[t:])
+            G = np.sum(discounts[:n_steps] * trajectory[t:, 2])
+            Q[state][action] = Q[state][action] + alphas[e] * (G - Q[state][action])
+
+        Q_track[e] = Q
+        pi_track.append(np.argmax(Q, axis=1))
+
+    v = np.max(Q, axis=1)
+    pi = np.argmax(Q, axis=1)
+    return Q, v, pi, Q_track, pi_track
+
 ```
 
 ### Print the optimal Value Funtion
 ```
-optimal_Q, optimal_V, optimal_pi = mc_control (env,n_episodes = 3000)
-print('Name: Meetha Prabhu     Register Number: 212222240065        ')
-print_state_value_function(optimal_Q, P, n_cols=4, prec=2, title='Action-value function:')
-print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='State-value function:')
-print_policy(optimal_pi,P)
+
+optimal_results = mc_control(env, n_episodes=3000)
+optimal_Q, optimal_V, optimal_pi, _, _ = optimal_results  # Unpack the results
+
+print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='\nAction-value function:\n') # Changed optimal_Q to optimal_V
+print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='\nState-value function:')
+print_policy(optimal_pi, P)
 ```
 
 ### Probability of Success:
 ```
-# Find the probability of success and the mean return of you your policy
-print('Name: Meetha Prabhu     Register Number: 212222240065        ')
+success_rate = probability_success(env, optimal_pi, goal_state) * 100
+average_return = mean_return(env, optimal_pi)
+print('Name: POOJA A            Register Number: 212222240072')
 print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.format(
-    probability_success(env, optimal_pi, goal_state=goal_state)*100,
-    mean_return(env, optimal_pi)))
+    success_rate,
+    average_return))
+
 ```
 
 
@@ -131,7 +157,7 @@ print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.
 ### Register Number: 212222240072
 ![image](https://github.com/user-attachments/assets/76d0b5c0-1713-4112-97d4-b4785f54afc5)
 
-![image](https://github.com/user-attachments/assets/de3475e2-d3bb-490a-966e-cf39940fa482)
+![image](https://github.com/user-attachments/assets/b8b9d52f-f9d6-4d1b-80af-5b18476ecba0)
 
 ## RESULT:
 We have successfully developed a Python program to find the optimal policy for the given RL environment using the Monte Carlo algorithm.
