@@ -131,10 +131,12 @@ def mc_control(env,
 
 ### Print the optimal Value Funtion
 ```python
-
+print('Name: POOJA A            Register Number: 212222240072')
+# Store the results of mc_control into separate variables
 optimal_results = mc_control(env, n_episodes=3000)
 optimal_Q, optimal_V, optimal_pi, _, _ = optimal_results  # Unpack the results
 
+# Pass the correct variables to the print functions
 print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='\nAction-value function:\n') # Changed optimal_Q to optimal_V
 print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='\nState-value function:')
 print_policy(optimal_pi, P)
@@ -155,9 +157,9 @@ print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.
 ## OUTPUT:
 ### Name: Pooja A
 ### Register Number: 212222240072
-![image](https://github.com/user-attachments/assets/529c80bd-0e5a-458f-b2e5-24bcc7a18d2b)
+![image](https://github.com/user-attachments/assets/333b1b3b-710c-47e2-84fb-5e22e335f508)
 
-![image](https://github.com/user-attachments/assets/b8b9d52f-f9d6-4d1b-80af-5b18476ecba0)
+![image](https://github.com/user-attachments/assets/4c0018b9-189f-4824-8aa2-72954c1c00ad)
 
 ## RESULT:
 We have successfully developed a Python program to find the optimal policy for the given RL environment using the Monte Carlo algorithm.
