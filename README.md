@@ -155,7 +155,7 @@ print('Reaches goal {:.2f}%. Obtains an average undiscounted return of {:.4f}.'.
 ## OUTPUT:
 ### Name: Pooja A
 ### Register Number: 212222240072
-![image](https://github.com/user-attachments/assets/2f6ececd-696e-4129-9f23-ebc6368c03d1)
+![image](https://github.com/user-attachments/assets/529c80bd-0e5a-458f-b2e5-24bcc7a18d2b)
 
 ![image](https://github.com/user-attachments/assets/b8b9d52f-f9d6-4d1b-80af-5b18476ecba0)
 
