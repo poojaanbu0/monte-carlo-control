@@ -71,7 +71,7 @@ The agent receives a reward of 1 for reaching the goal state, and a reward of 0 
 
 
 ## MONTE CARLO CONTROL FUNCTION
-```
+```python
 def mc_control(env,
                gamma=1.0,
                init_alpha=0.5,
@@ -130,7 +130,7 @@ def mc_control(env,
 ```
 
 ### Print the optimal Value Funtion
-```
+```python
 
 optimal_results = mc_control(env, n_episodes=3000)
 optimal_Q, optimal_V, optimal_pi, _, _ = optimal_results  # Unpack the results
@@ -141,7 +141,7 @@ print_policy(optimal_pi, P)
 ```
 
 ### Probability of Success:
-```
+```python
 success_rate = probability_success(env, optimal_pi, goal_state) * 100
 average_return = mean_return(env, optimal_pi)
 print('Name: POOJA A            Register Number: 212222240072')
